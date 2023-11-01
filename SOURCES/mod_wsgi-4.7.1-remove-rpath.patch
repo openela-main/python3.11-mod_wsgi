@@ -1,0 +1,33 @@
+diff --git a/setup.py b/setup.py
+index e0c8c84..a3e24f1 100644
+--- a/setup.py
++++ b/setup.py
+@@ -321,19 +321,6 @@ EXTRA_COMPILE_FLAGS = (EXTRA_INCLUDES + CPPFLAGS + EXTRA_CPPFLAGS +
+         CFLAGS + EXTRA_CFLAGS + APR_INCLUDES + APU_INCLUDES)
+ EXTRA_LINK_ARGS = PYTHON_LDFLAGS + PYTHON_LDLIBS
+ 
+-# Force adding of LD_RUN_PATH for platforms that may need it.
+-
+-LD_RUN_PATHS = []
+-if os.name != 'nt':
+-    LD_RUN_PATH = os.environ.get('LD_RUN_PATH', '')
+-    LD_RUN_PATHS = [PYTHON_CFGDIR]
+-    if PYTHON_LIBDIR != APXS_LIBDIR:
+-        LD_RUN_PATHS.insert(0, PYTHON_LIBDIR)
+-    LD_RUN_PATH += ':' + ':'.join(LD_RUN_PATHS)
+-    LD_RUN_PATH = LD_RUN_PATH.lstrip(':')
+-
+-    os.environ['LD_RUN_PATH'] = LD_RUN_PATH
+-
+ # On MacOS X, recent versions of Apple's Apache do not support compiling
+ # Apache modules with a target older than 10.8. This is because it
+ # screws up Apache APR % formats for apr_time_t, which breaks daemon
+@@ -362,7 +349,7 @@ else:
+ 
+ extension = Extension(extension_name, source_files,
+         include_dirs=INCLUDE_DIRS, extra_compile_args=EXTRA_COMPILE_FLAGS,
+-        extra_link_args=EXTRA_LINK_ARGS, runtime_library_dirs=LD_RUN_PATHS)
++        extra_link_args=EXTRA_LINK_ARGS)
+ 
+ def _documentation():
+     result = []
